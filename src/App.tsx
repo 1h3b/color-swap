@@ -322,7 +322,6 @@ function App() {
                   style={{
                     backgroundColor: square.color,
                     zIndex: draggingIndex === index ? 1000 : "auto",
-                    visibility: index === 0 ? "hidden" : "",
                   }}
                   drag
                   dragElastic={1}
@@ -341,8 +340,6 @@ function App() {
                   className="square"
                   key={square.id}
                   style={{
-                    visibility: index === 0 ? "hidden" : "",
-                    draggable: "false",
                     pointerEvents: "none",
                     userSelect: "none",
                     display: "flex", // Flexbox for centering
