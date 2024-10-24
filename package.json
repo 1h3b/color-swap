@@ -41,7 +41,4 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "framer-motion": "^11.11.9"
-  }
 }
