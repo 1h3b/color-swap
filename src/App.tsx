@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import { motion } from "framer-motion";
+import { Analytics } from '@vercel/analytics/react';
 
 // Type definition for the square object
 interface Square {
@@ -366,6 +367,7 @@ function App() {
           </div>
         )}
       </header>
+      <Analytics />
     </div>
   );
 }
