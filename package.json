@@ -15,7 +15,7 @@
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4",
-    "framer-motion": "^11.11.9"
+    "framer-motion": "^11.11.9",
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,5 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
+  }
 }
