@@ -391,12 +391,6 @@ function App() {
       {isGameOver && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white w-4/5 sm:w-1/4  p-8 rounded-lg shadow-lg relative">
-            <button
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
-              onClick={() => setIsGameOver(false)}
-            >
-              &times; {/* Close icon */}
-            </button>
             <h2 className="text-3xl font-bold mb-4">Game Over</h2>
             <p className="mb-4 text-xl">No swaps remaining!</p>
             <p className="mb-4 text-xl">Better luck next time.</p>
