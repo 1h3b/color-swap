@@ -20,7 +20,7 @@ enum Level {
 let level = Level.Easy;
 
 const swapsPerDifficulty = [2, 6, 500, 500];
-const swapsRemainingPerLevel = [10, 20, 30, 50];
+const swapsRemainingPerLevel = [20, 30, 40, 50];
 
 function App() {
   // Define the solution grid colors
