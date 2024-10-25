@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 import { motion } from "framer-motion";
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // Type definition for the square object
 interface Square {
@@ -19,7 +19,8 @@ enum Level {
 
 let level = Level.Easy;
 
-const swapsPerDifficulty = [3, 6, 500, 500];
+const swapsPerDifficulty = [2, 6, 500, 500];
+const swapsRemainingPerLevel = [10, 20, 30, 50];
 
 function App() {
   // Define the solution grid colors
@@ -144,6 +145,10 @@ function App() {
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [difficulty, setDifficulty] = useState<Level>(Level.Easy);
+  const [swapsRemaining, setSwapsremaining] = useState<number>(
+    swapsRemainingPerLevel[Level.Easy]
+  );
+  const [isGameOver, setIsGameOver] = useState(false);
 
   const handleDifficultyChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -151,6 +156,7 @@ function App() {
     const selectedDifficulty = Number(event.target.value);
     setDifficulty(selectedDifficulty);
     initializeGrid(selectedDifficulty);
+    setSwapsremaining(swapsRemainingPerLevel[selectedDifficulty]);
   };
 
   const initializeGrid = (selectedDifficulty: Level) => {
@@ -278,6 +284,10 @@ function App() {
         [updatedSquares[hoverIndex].color, updatedSquares[draggingIndex].color];
 
       setSquares(updatedSquares);
+      setSwapsremaining(swapsRemaining - 1);
+      if (swapsRemaining - 1 === 0 && !areAllScoresPerfect()) {
+        setIsGameOver(true);
+      }
     }
     // Reset drag state
     setDraggingIndex(null);
@@ -293,6 +303,12 @@ function App() {
     const allScores = [...rowScores, ...colScores];
 
     return allScores.every((score) => score === 5);
+  };
+
+  const newGame = () => {
+    setIsGameOver(false); // Close the modal
+    initializeGrid(difficulty); // Add any additional logic for starting a new game here
+    setSwapsremaining(swapsRemainingPerLevel[difficulty]);
   };
 
   return (
@@ -361,13 +377,41 @@ function App() {
             }
           })}
         </motion.div>
+        <div className="pl-12 pt-5 text-2xl font-bold">
+          {swapsRemaining} swaps remaining
+        </div>
+
         {/* Show Bravo message if all scores are 5 */}
         {areAllScoresPerfect() && (
-          <div className="bravo-message">
+          <div className="pl-12 pt-5 text-2xl font-bold">
             <h1>Bravo!</h1>
           </div>
         )}
       </header>
+      {isGameOver && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white w-1/4 p-8 rounded-lg shadow-lg relative">
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+              onClick={() => setIsGameOver(false)}
+            >
+              &times; {/* Close icon */}
+            </button>
+            <h2 className="text-3xl font-bold mb-4">Game Over</h2>
+            <p className="mb-4 text-xl">No swaps remaining!</p>
+            <p className="mb-4 text-xl">Better luck next time.</p>
+            <div className="text-2xl">😢</div>
+            {/* New Game Button */}
+            <button
+              className="mt-6 w-1/2 bg-black text-white px-4 py-2 rounded"
+              onClick={newGame}
+            >
+              New Game
+            </button>
+          </div>
+        </div>
+      )}
+
       <SpeedInsights />
       <Analytics />
     </div>
